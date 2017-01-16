@@ -4,9 +4,9 @@
 # Dieses Skript fragt nach der Spiegelung die Grösse des Datenbestandes ihfinanz ab und verschickt eine Mail an die eingetragenen Personen
 #
 
-DEST="mike.braendle@swissfm.ch, michael.jochims@swissfm.ch, nathanael.tichelli@swissfm.ch, dominique.steinbach@swissfm.ch"
+DEST="elias.haefliger@swissfm.ch"
 #DEST="elias.haefliger@swissfm.ch"
-BETREFF="ihfinanz_BS-Prod_size"
+BETREFF="ihfinanz_size"
 # 1.8GB
 SIZE=1932735283
 
