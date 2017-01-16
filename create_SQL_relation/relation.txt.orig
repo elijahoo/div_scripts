@@ -1,0 +1,432 @@
+# <alias> <zokname>:<primary_key> <zokname>:<foreign_key> <conditions>
+
+
+#############################################
+#  Grunddaten                               #
+#############################################
+#
+## adresse ##
+#############
+Adressklasse adresse:klasse:2 adrklass:ident
+Adressgruppe adresse:gruppe adrgrupp:name
+
+## artikel ##
+#############
+Artikelklasse artikel:klasse:2 artklass:ident
+Artikelgruppe artikel:gruppe:40 artgrupp:name
+Artikelzusatzklasse_0 artikel:zklass0:10 artzklass:ident
+Artikelzusatzklasse_1 artikel:zklass1:10 artzklass:ident
+
+## dossier ##
+#############
+Dossierklasse dossier:klasse:2 dsrklass:ident
+Dossiergruppe dossier:gruppe dsrgrupp:name
+
+## ordner ##
+#############
+Ordnerklasse ordner:klasse:2 ordklass:ident
+Ordnergruppe ordner:gruppe ordgrupp:name
+
+## vorgang ##
+#############
+Vorgangsklasse vorgang:klasse vorklass:ident
+
+## ihauftr ##
+#############
+IH_Taetigkeit ihauftr:zutun:10 ihtaetig:ident
+
+#############################################
+#  Allgemein                                #
+#############################################
+#
+hauptzuordnung_adresse vorgang:otick adresse:ticket t1.otyp=1
+hauptzuordnung_artikel vorgang:otick artikel:ticket t1.otyp=2
+
+## adresse ##
+#############
+#(zok!-)webuser_adresse webuser:adrtick adresse:ticket
+#(zok!A)adraswpos_adresse adraswpos:adrtick adresse:ticket
+#(zok!A)dzerfass_Kundenadresse dzerfass:kdatick adresse:ticket
+#(zok!A)dzerfass_Rechnungsadresse dzerfass:rgatick adresse:ticket
+#(zok!A)adrbewert_adresse adrbewert:adrtick adresse:ticket
+Position_OAdresse position:otick adresse:ticket t1.oart = 1
+Lieferanten_Einkaufspreis ekpreis:lieftick adresse:ticket
+Lagerbestand_Adresse lgrbstnd:adrtick adresse:ticket
+Lagerhistorie_Adresse lgrhist:adrtick adresse:ticket
+Lagerplan_Adresse lgrplan:adrtick adresse:ticket
+Rechnungshistorie_Adresse rchhist:adrtick adresse:ticket
+Objektausgabe_Empfaenger objausgab:etick adresse:ticket
+#adrsoprs_adresse adrsoprs:adrticket adresse:ticket
+#artengtx_adresse artengtx:lieftick adresse:ticket
+#opliste_Kunde opliste:kutck adresse:ticket
+#fertdisp_Kunde fertdisp:kt adresse:ticket
+#fertdisp_Mitarbeiter fertdisp:mitt adresse:ticket
+#opliste_Lieferant opliste:litck adresse:ticket
+#opliste_Rechnungsanschrift opliste:retck adresse:ticket
+#mietrech_Adresse mietrech:adrtck adresse:ticket
+#mietstat_Adresse mietstat:adrtck adresse:ticket
+
+#Wertkette_Adresse01 wrtkette:adrvf01 adresse:ticket
+#Wertkette_Adresse02 wrtkette:adrvf02 adresse:ticket
+#Wertkette_Adresse03 wrtkette:adrvf03 adresse:ticket
+#Wertkette_Adresse04 wrtkette:adrvf04 adresse:ticket
+#Wertkette_Adresse05 wrtkette:adrvf05 adresse:ticket
+#Wertkette_Adresse06 wrtkette:adrvf06 adresse:ticket
+#Wertkette_Adresse07 wrtkette:adrvf07 adresse:ticket
+#Wertkette_Adresse08 wrtkette:adrvf08 adresse:ticket
+#Wertkette_Adresse09 wrtkette:adrvf09 adresse:ticket
+#Wertkette_Adresse10 wrtkette:adrvf10 adresse:ticket
+#Wertkette_Adresse11 wrtkette:adrvf11 adresse:ticket
+#Wertkette_Adresse12 wrtkette:adrvf12 adresse:ticket
+#Wertkette_Adresse13 wrtkette:adrvf13 adresse:ticket
+#Wertkette_Adresse14 wrtkette:adrvf14 adresse:ticket
+#Wertkette_Adresse15 wrtkette:adrvf15 adresse:ticket
+#Wertkette_Adresse16 wrtkette:adrvf16 adresse:ticket
+#Wertkette_Adresse17 wrtkette:adrvf17 adresse:ticket
+#Wertkette_Adresse18 wrtkette:adrvf18 adresse:ticket
+#Wertkette_Adresse19 wrtkette:adrvf19 adresse:ticket
+
+
+## artikel ##
+#############
+#(zok!A)lgrmbok_artikel lgrmbok:arttick artikel:ticket
+#(zok!-)artprshist_artikel artprshist:arttick artikel:ticket
+#(zok!A)rhlpruef_artikel rhlpruef:arttick artikel:ticket
+#(zok!A)artaswpos_artikel artaswpos:arttick artikel:ticket
+#(zok!-)kostensoll_Artikel kostensoll:arttick artikel:ticket
+#(zok!A)artmietpr_artikel artmietpr:arttick artikel:ticket
+Position_Artikel position:arttick artikel:ticket
+Position_OArtikel position:otick artikel:ticket t1.oart = 2
+Position_Lagerort position:lgrtick:2 lagerort:nummer
+Artikelpreis_Artikel artpreis:ident artikel:ticket
+Artikelpreishistorie_Artikel artprhist:arttick artikel:ticket
+Artikelpreisliste_Artikel artprlis:arttick artikel:ticket
+Artikelverpackung artvrpck:artikel artikel:ticket
+Artikel_Einkaufspreis ekpreis:arttick artikel:ticket
+Lagerbestand_Artikel lgrbstnd:arttick artikel:ticket
+Lagerhistorie_Artikel lgrhist:arttick artikel:ticket
+Lagerplan_Artikel lgrplan:arttick artikel:ticket
+Rechnungshistorie_Artikel rchhist:arttick artikel:ticket
+#ppsmasch_Artikel ppsmasch:arttick artikel:ticket
+#mietrech_Artikel mietrech:arttck artikel:ticket
+#ppsmater_Artikel ppsmater:artikel artikel:nummer:20
+#ppswerkz_Artikel ppswerkz:artikel artikel:nummer:20
+#qstext_Artikel qstext:objekt artikel:ticket
+#adrsoprs_artikel adrsoprs:artticket artikel:ticket
+#artengtx_artikel artengtx:arttick artikel:ticket
+#stlver_Artikel stlvers:objekt artikel:ticket
+
+#Wertkette_Artikel01 wrtkette:artvf01 artikel:ticket
+#Wertkette_Artikel02 wrtkette:artvf02 artikel:ticket
+#Wertkette_Artikel03 wrtkette:artvf03 artikel:ticket
+#Wertkette_Artikel04 wrtkette:artvf04 artikel:ticket
+#Wertkette_Artikel05 wrtkette:artvf05 artikel:ticket
+#Wertkette_Artikel06 wrtkette:artvf06 artikel:ticket
+#Wertkette_Artikel07 wrtkette:artvf07 artikel:ticket
+#Wertkette_Artikel08 wrtkette:artvf08 artikel:ticket
+#Wertkette_Artikel09 wrtkette:artvf09 artikel:ticket
+
+
+## vorgang ##
+#############
+#(zok!A)vorgbear_vorgang vorgbear:vorident vorgang:ident
+#(zok!A)Qualitaetssicherung_vorgang rhlpruef:qsvtick vorgang:ident
+#(zok!A)Lieferschein_vorgang  rhlpruef:lsvtick vorgang:ident
+#(zok!A)Eingangslieferschein artaswpos:invektick vorgang:ident
+#(zok!A)vrlggrpzo_mitarbeiter vrlggrpzo:marbtick mitarbei:ident
+Archiviert_durch vorgang:arcben benutzer:benticket
+Besitzer vorgang:otick benutzer:benticket
+Erfasst_durch vorgang:erfben benutzer:benticket
+posdruck_vorgang vorgang:typ posdruck:vorgart
+fremdsys_Vorlage fremdsys:vorlage vorgang:ident
+lgrbstnd_Vorgang lgrbstnd:vortick vorgang:ident
+lgrhist_Vorgang lgrhist:vortick vorgang:ident
+lgrplan_Vorgang lgrplan:vortick vorgang:ident
+Objektausgabe_Wiedervorlage objausgab:vtick vorgang:ident
+Provisionsvorgang vorknot:provvtck vorgang:ident
+Rechnungshistorie_Vorgang rchhist:vortick vorgang:ident
+Rechnungsvorgang zahlung:rtick vorgang:ident
+Registriert_durch vorgang:regben benutzer:benticket
+Vater_Vorgang vorgang:vatertick vorgang:ident
+Sohn_Vorgang vorgang:sohntick vorgang:ident
+termin_Vorgang termin:vgtick vorgang:ident
+Vorgangsposition position:ticket vorgang:ident
+Vorlage vorgang:vorltick vorgang:ident
+Weiterleiten_An vorgtyp:wtrltben benutzer:benticket
+Zahlungsvorgang zahlung:ztick vorgang:ident
+#mietrech_Vorgang mietrech:erbtick vorgang:ident
+#mietstat_Angebot mietstat:vtckangb vorgang:ident
+#mietstat_Ausgabe_Lieferschein mietstat:vtcklsaus vorgang:ident
+#mietstat_Ruecknahme_Lieferschein mietstat:vtcklsrue vorgang:ident
+#mietstat_Abschlussrechnung mietstat:vtcklsrch vorgang:ident
+#opliste_Vorgang opliste:vtick vorgang:ident
+#posdeck_Vorgang posdeck:vtick vorgang:ident
+#rchkonto_Vorgang rchkonto:vortick vorgang:ident
+#vorgpermit_vorgang vorgpermit:vtick vorgang:ident
+#vorprov_Vorgang vorprov:vtick vorgang:ident
+#vorprov_adresse vorprov:otick adresse:ticket t1.otyp = '1'
+#vorprov_artikel vorprov:otick artikel:ticket t1.otyp = '2'
+#vorprov_ordner vorprov:otick ordner:ticket t1.otyp = '3'
+#vorprov_dossier vorprov:otick dossier:ticket t1.otyp = '4'
+#vorprov_ihauftr vorprov:otick ihauftr:ticket t1.otyp = '6'
+#vorprov_Gutschrift vorprov:gutschr vorgang:ident
+#vfremdlog_vorgang vfremdlog:vtick vorgang:ident
+#wrtkette_Vorgang wrtkette:vtck vorgang:ident
+###Ausgedruckt_durch vorgang:prtben benutzer:benticket
+###vorprov_vorgang vorprov:otick vorgang:ident t1.otyp = '5'
+
+
+## objekt ##
+############
+##vorselek_objekt vorselek:objticket adresse:ticket otyp = '1'
+#(zok!A)objchang_objekt objchang:otick objekt:ticket
+#(zok!A)objausw_objekt objausw:objtick objekt:ticket
+#(zok!A)objekt_eingang objekt:ticket eingang:objtick
+#(zok!A)fertprot_objekt fertprot:ticket objekt:ticket
+#(zok!A)artselek_objekt artselek:objticket objekt:ticket
+#(zok!A)bengebde_objekt bengebde:fmobjtick objekt:ticket
+#(zok!A)adrselek_objekt adrselek:objticket objekt:ticket
+Objektausgabe objausgab:otick artikel:ticket t1.oart = '2'
+vorknot_adresse vorknot:otick adresse:ticket t1.otyp = '1'
+vorknot_artikel vorknot:otick artikel:ticket t1.otyp = '2'
+vorknot_ordner vorknot:otick ordner:ticket t1.otyp = '3'
+vorknot_dossier vorknot:otick dossier:ticket t1.otyp = '4'
+vorknot_vorgang vorknot:otick vorgang:ident t1.otyp = '5'
+vorknot_ihauftr vorknot:otick ihauftr:ticket t1.otyp = '6'
+
+
+## dossier ##
+#############
+lgrbstnd_Dossier lgrbstnd:dsrtick dossier:ticket
+lgrhist_Dossier lgrhist:dsrtick dossier:ticket
+lgrplan_Dossier lgrplan:dsrtick dossier:ticket
+rchhist_Dossier rchhist:dsrtick dossier:ticket
+
+
+## Benutzer ##
+##############
+#(zok!-)jobproto_Benutzer jobproto:bentick benutzer:benticket
+#(zok!A)Lgrmbok_Benutzer lgrmbok:bentick benutzer:benticket
+#(zok!A)msgdaten_Benutzer msgdaten:bentick benutzer:benticket
+#(zok!A)Benutzer_ihbenein benutzer:benticket ihbenein:bentick
+#(zok!A)Benutzer_taskproto benutzer:benticket taskproto:bentick
+#(zok!A)adraswpos_Benutzer adraswpos:bentick benutzer:benticket
+#(zok!A)hhihauftr_Benutzer hhihauftr:bentick benutzer:benticket
+#(zok!A)hhihauftr_bearbeitender_Benutzer hhihauftr:wbentick benutzer:benticket
+#(zok!A)vorgbear_benutzer vorgbear:benticket benutzer:benticket
+#(zok!A)msgordner_benutzer msgordner:bentick benutzer:benticket
+#(zok!A)objchang_benutzer objchang:bentick benutzer:benticket
+#(zok!A)msggrpben_benutzer msggrpben:bentick benutzer:benticket
+#(zok!A)objausw_benutzer objausw:bentick benutzer:benticket
+#(zok!A)vorhist_benutzer vorhist:bentick benutzer:benticket 
+#(zok!A)eingang_benutzer eingang:bentick benutzer:benticket
+#(zok!A)vrlggrpzo_benutzer vrlggrpzo:bentick benutzer:benticket
+#(zok!A)fertprot_benutzer fertprot:bentick benutzer:benticket
+#(zok!A)rhlpruef_benutzer rhlpruef:bentick benutzer:benticket
+#(zok!A)emailacc_benutzer emailacc:bentick benutzer:benticket
+#(zok!A)artaswpos_benutzer artaswpos:bentick benutzer:benticket
+#(zok!A)dzerfass_benutzer dzerfass:bentick benutzer:benticket
+#(zok!A)adrbewert_benutzer adrbewert:bentick benutzer:benticket
+Benutzer_Abteilung benutzer:abteilnam abteilng:name
+Benutzer_Gebaeude benutzer:benticket bengebde:bentick
+mitarbeiter mitarbei:bentick benutzer:benticket
+artprhist_benutzer artprhist:bentick benutzer:benticket
+benutzer_adresse benutzer:adrtick adresse:ticket
+benutzer_webadresse benutzer:webadrtick adresse:ticket
+Kosten_erfasst_durch kostenist:erfben benutzer:benticket
+Lagerhistory_erfasst_durch lgrhist:erftick benutzer:benticket
+Lagerplan_erfasst_durch lgrplan:erftick benutzer:benticket
+Zahlung_Erfasst_Durch zahlung:btick benutzer:benticket
+Termin_angelegt_durch termin:anlben benutzer:benticket
+#adrselek_benutzer adrselek:bentick benutzer:benticket
+#artselek_benutzer artselek:bentick benutzer:benticket
+#adrselgr_Benutzer adrselgr:bentick benutzer:benticket
+#artselgr_benutzer artselgr:bentick benutzer:benticket
+#benlogin_benutzer benlogin:bentick benutzer:benticket
+#benselgr_benutzer benselgr:bentick benutzer:benticket
+#benselgr_benutzer benselgr:mandident mandant:ident
+#crbrechte_benutzer crbrechte:bentick benutzer:benticket
+#opliste_erfasst_durch opliste:erfben benutzer:benticket
+#opliste_registriert_durch opliste:regben benutzer:benticket
+#ppsabaft_abgemeldet ppsabaft:person benutzer:benticket
+#ppsabagb_abgemeldet ppsabagb:person benutzer:benticket
+#ppsabmat_abgemeldet ppsabmat:person benutzer:benticket
+#vfremdlog_Benutzer vfremdlog:bentick benutzer:benticket
+#vorgpermit_benutzer vorgpermit:benticket benutzer:benticket
+#vorselek_Benutzer vorselek:bentick benutzer:benticket
+
+
+## Bezug ##
+###########
+bezug_adresse1 bezug:otick1 adresse:ticket t1.oart1 = '1'
+bezug_adresse2 bezug:otick2 adresse:ticket t1.oart1 = '1'
+bezug_artikel1 bezug:otick1 artikel:ticket t1.oart1 = '2'
+bezug_artikel2 bezug:otick2 artikel:ticket t1.oart1 = '2'
+bezug_ordner1 bezug:otick1 ordner:ticket t1.oart1 = '3'
+bezug_ordner2 bezug:otick2 ordner:ticket t1.oart1 = '3'
+bezug_dossier1 bezug:otick1 dossier:ticket t1.oart1 = '4'
+bezug_dossier2 bezug:otick2 dossier:ticket t1.oart1 = '4'
+bezug_vorgang1 bezug:otick1 vorgang:ident t1.oart1 = '5'
+bezug_vorgang2 bezug:otick2 vorgang:ident t1.oart1 = '5'
+bezug_ihauftr1 bezug:otick1 ihauftr:ticket t1.oart1 = '6'
+bezug_ihauftr2 bezug:otick2 ihauftr:ticket t1.oart1 = '6'
+
+
+termin_Mandant termin:mandid mandant:ident
+#betreu_Mitarbeiter betreu:mittick mitarbei:ident
+#zeftext_Arbeitszeitartikel zeftext:arbzeit artikel:ticket
+#zeawoche_Dossier zeawoche:traeger dossier:nummer
+#zeawoche_Adresse zeawoche:person adresse:ticket
+#zefspes_Dossier zefspes:traeger dossier:nummer
+#zefspes_Adresse zefspes:person adresse:ticket
+#zefspes_Vorgang zefspes:vorgang vorgang:ident
+#zefwoche_Dossier zefwoche:traeger dossier:nummer
+#zefwoche_Adresse zefwoche:person adresse:ticket
+
+###fertdisp_artikel fertdisp:at artikel:ticket
+###fertdisp_Hauptartikel fertdisp:ht artikel:ticket
+###fertdisp_vorgang fertdisp:astvtck vorgang:ident
+###fertdisp_Lieferschein fertdisp:lst vorgang:ident
+###fertdisp_Ausstattung fertdisp:astvtck vorgang:ident
+###fertdisp_Zubehoer fertdisp:zubvtck vorgang:ident
+###fertdisp_Auftrag fertdisp:vt vorgang:ident
+###fertdisp_benutzer fertdisp:anlbentck benutzer:benticket
+###()fertdisp_Standort fertdisp:sot artikel:ticket 
+
+#(zok!-)vermietung_Artikel vermietung:arttck artikel:ticket
+#(zok!-)vermietung_Adresse vermietung:adrtck adresse:ticket
+#(zok!-)vermietung_Angebot vermietung:vortick vorgang:ident #vtckangb
+#(zok!-)vermietung_Auftrag vermietung:vortick vorgang:ident #vtckaftr
+#(zok!-)vermietung_Ausgabe_Lieferschein vermietung:vortick vorgang:ident #vtcklsaus
+#(zok!-)vermietung_Ruecknahme_Lieferschein vermietung:vortick vorgang:ident #vtcklsrck
+#(zok!-)vermietung_Exemplar vermietung:exmtick artikel:ticket
+
+lgrhist_Exemplar lgrhist:exmtick artikel:ticket
+termin_Besitzer termin:bnmatick adresse:ticket t2.mitarbei = '1'
+zahlung_Mensch zahlung:mtick adresse:ticket 
+Fremdwaehrungskurse waehkurs:frdident waehrung:ident
+Heimatwaehrungskurse waehkurs:hmtident waehrung:ident
+#mietrech_Exemplar mietrech:exmtick artikel:ticket
+#() vorgang_Vererbung vorgang:erbtick --vorgang --artikel
+# UPDATE vorgang v1 SET ihauftrag_id = (SELECT id FROM vorgang v2 WHERE v1.tan = v2.tan AND v2.typ = 'IHAUFTRAG' limit 1)
+
+
+#############################################
+#  Instandhaltung                           #
+#############################################
+#
+#(zok!A)ihkapaqual_ihanweis ihkapaqual:ihanweis ihanweis:ident
+#(zok!A)ihanweis_ihdoku ihdoku:anwident ihanweis:ident
+ihalist_Anlage ihalist:anltick artikel:ticket
+ihalist_Gebaeude ihalist:gbdtick artikel:ticket
+ihalist_Standort ihalist:orttick artikel:ticket
+ihaufwnd_Mitarbeiter ihaufwnd:perstick mitarbei:ident t1.perstick != ''
+ihbeazeit_mitarbei ihbeazeit:matick mitarbei:bentick
+ihbeazeit_Lieferschein ihbeazeit:lstick vorgang:ident
+ihmassnhm_Anweisung ihmassnhm:Anweisung ihanweis:ident
+ihfinanz_dossier ihfinanz:dsrtick dossier:nummer
+#()ihbeazeit_Arbeitszeit ihbeazeit:aztick artikel:ticket
+#fmkvzstand_Mitarbeiter fmkvzstand:marbtick mitarbei:ident
+#ihzhlabl_Mitarbeiter ihzhlabl:marbtick mitarbei:ident
+#ihzhlabl_Standort ihzhlabl:orttick artikel:ticket
+
+
+## adresse ##
+#############
+###hhihauftr_adresse hhihauftr:adrtick adresse:ticket
+ihverant_Adresse ihverant:adrtick adresse:ticket
+kostenist_Adresse kostenist:adrtick adresse:ticket
+Rechnungsanschrift_ihfinanz ihfinanz:debtick adresse:ticket
+
+
+## artikel ##
+#############
+###hhihauftr_anlage hhihauftr:anltick artikel:ticket
+###hhihauftr_gebaeude hhihauftr:gbdtick artikel:ticket
+verbrauchszaehler_anlage fmkvrbzhl:anltick artikel:ticket
+Anlage_ihfinanz ihfinanz:anltick artikel:ticket
+artikel_ihaufwnd ihaufwnd:arttick artikel:ticket
+ihinspekt_artikel ihinspekt:arttick artikel:ticket
+ihmassnhm_artikel ihmassnhm:arttick artikel:ticket
+ihzhlabl_Anlage ihzhlabl:anltick artikel:ticket
+instand_Anlage instand:arttick artikel:ticket
+kostenist_Artikel kostenist:arttick artikel:ticket
+
+
+## ihauftr ##
+#############
+#(zok!A)ihdoku_ihauftr ihdoku:ihtick ihauftr:ticket
+#(zok!A)ihkapaqual_ihauftr ihkapaqual:ihtick ihauftr:ticket
+###()hhihauftr_ort hhihauftr:orttick 
+###hhihauftr_ihauftrag hhihauftr:ticket ihauftr:ticket
+ihaufwand_ihauftr ihaufwnd:ihtick ihauftr:ticket
+ihauftrag vorgang:tan vorgang:tan t1.id != t2.id AND t1.typ = 'IHAUFTRAG'
+ihauftrag_anweisung ihauftr:ihanwident:10 ihanweis:ident
+ihauftrag_artikel ihauftr:anltick artikel:ticket
+ihauftrag_bearbeitender_benutzer ihauftr:wbentick benutzer:benticket
+ihauftrag_benutzer ihauftr:bentick benutzer:benticket
+ihauftrag_gebaeude ihauftr:gbdtick artikel:ticket
+ihauftrag_ihfinanz ihfinanz:ihtick ihauftr:ticket
+ihauftrag_massnahme ihmassnhm:identnr ihauftr:ihzeile
+ihbearbzeit_ihauftrag ihbeazeit:ihtick ihauftr:ticket
+ihverant_ihauftr ihauftr:verantw:10 ihverant:ident
+#()ihauftr_ort ihauftr:orttick 
+#()ihauftrag_erledigtzusatz iherlgrd:bezeich ihauftr:erlzusatz
+
+
+## vorgang ##
+#############
+#(zok!A)ihdoku_vorgang ihdoku:vtick vorgang:ident
+ihaufwnd_Lieferschein ihaufwnd:lstick vorgang:ident
+instand_Vorlage instand:vorlage vorgang:ident
+vorknot_vorgang vorknot:vtick vorgang:ident
+adresse_vorknot 
+
+
+#############################################
+#  FDS                                      #
+#############################################
+#
+###fdsmwprt_anlage fdsmwprt:anlage artikel:ticket
+###fdsmwprt_Benutzer fdsmwprt:bentick benutzer:benticket
+###fdsbenalm_Benutzer fdsbenalm:bentick benutzer:benticket
+###fdsgrafmrk_benutzer fdsgrafmrk:bentick benutzer:benticket
+fdspunkt_Anlage fdspunkt:anlage:15 artikel:ticket
+
+## Alarm ##
+###########
+fdsalarm_fdspunkt fdsalarm:feldadr fdspunkt:feldadr
+fdsalmaus_fdsalarm fdsalmaus:alarmindex fdsalarm:alarmindex
+fdsalarm_Anlage fdsalarm:anlage:15 artikel:ticket
+
+
+## Zähler ##
+############
+Verbrauchszaehler_Stand fmkvzstand:nummer:15 fmkvrbzhl:nummer
+Verbrauchszaehler_Mitarbeiter fmkvzstand:marbtick:15 mitarbei:bentick
+Verbrauchszaehler_Einheit fmkvzstand:einheit einheit:kurz
+
+### 
+#  Special
+###
+#(zok!-)vorgang umsatzvorgang:vorgangsnummer umsatzposition:vorgangsnummer
+#(zok!-)ihauftrag vorgang:tan umsatzvorgang:kettenid vorgang.typ = 'IHAUFTRAG'
+#(zok!-)umsatzvorgang umsatzvorgang:vorgangsnummer umsatzposition:vorgangsnummer
+
+
+###
+#  Temperatur&Feuchte Druckformular
+###
+###datenpunkt_ereignismarker fdspunkt:anlage fdsgrafmrk:artidnr
+###ereignis_artikel fdsgrafmrk:artidnr artikel:nummer
+datenpunkt_anlage fdspunkt:anlage artikel:nummer
+datenpunkt_standort fdspunkt:standort artikel:nummer
+
+
+#############################################
+#  Android                                  #
+#############################################
+#
+hhsdcard_Mitarbeiter hhsdcard:mitarbtk mitarbei:bentick
+hhsdcard_Arbeitszeit hhsdcard:arbzeittk artikel:ticket
+hhsdcard_Mandant hhsdcard:mandident mandant:ident

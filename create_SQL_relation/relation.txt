@@ -1,0 +1,18 @@
+# <alias> <zokname>:<primary_key> <zokname>:<foreign_key> <conditions>
+
+
+#############################################
+#  Grunddaten                               #
+#############################################
+#
+## adresse ##
+#############
+Adressklasse adresse:klasse:2 adrklass:ident
+Adressgruppe adresse:gruppe adrgrupp:name
+
+## artikel ##
+#############
+Artikelklasse artikel:klasse:2 artklass:ident
+Artikelgruppe artikel:gruppe:40 artgrupp:name
+Artikelzusatzklasse_0 artikel:zklass0:10 artzklass:ident
+Artikelzusatzklasse_1 artikel:zklass1:10 artzklass:ident

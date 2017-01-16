@@ -1,0 +1,147 @@
+
+#require '/sfmtool/prg/opt/interface/lib/bootstrap'
+require 'rubygems'
+require 'kartei'
+require 'pg'
+
+
+unless (ARGV[0] && ARGV[1])
+  raise "USAGE: ruby relation.rb <MANDANT> <PG_DATABASE>"
+end
+MANDANT = ARGV[0]
+DATABASE = ARGV[1].downcase
+USER = 'reporting_' + DATABASE
+
+# additional columns, which are not in the def, but are generated for primary-/foreign-key constraints
+$special_columns = {}
+
+def insert_kk(ft, pt)
+  zuord = Kartei::Sqlzuord.new
+  zuord.pktabname = ft
+  zuord.pkcolname ="#{pt}_id"
+  zuord.fktabname = pt
+  zuord.fkcolname = "id"
+  zuord.matchopt = "NONE"
+  zuord.save
+end
+
+def execute_batch(sql_statements)
+  conn = PGconn.open(:dbname => DATABASE)
+  conn.set_error_verbosity(PGconn::PQERRORS_TERSE)
+
+  sql_statements.each do |sql|
+    begin
+      p sql
+      res = conn.exec(sql)
+    rescue Exception => e
+      puts "\t#{e.message.strip}"
+    end
+    puts ""
+  end
+  conn.close
+end
+
+def create_view_sql(zokname)
+  column_name_aliases = []
+  if File.exists? "/sfmtool/prg/def/#{zokname}.def"
+    File.open("/sfmtool/prg/def/#{zokname}.def", 'r').each do |line|
+      if line =~ /^\)X/
+        f = line.split(/\s+/).map(&:downcase)
+        if f.size == 3
+          column_name_aliases << [f[1], f[2].gsub(/\W/, '_')]
+        else
+          puts "Unknown column name/alias for table #{zokname} => #{f.inspect}"
+        end
+      end
+    end
+    def_columns = column_name_aliases.map {|tech_name, human_name| "#{tech_name} as #{human_name}" }
+    columns = $special_columns[zokname] ? ($special_columns[zokname] | def_columns) : def_columns
+    return "SELECT #{columns.join(',')} FROM #{zokname}"
+  else
+    return "SELECT * FROM #{zokname}"
+  end
+end
+
+
+Thread.current[:mandant] = MANDANT
+
+# collect relations
+relations = []
+File.open('relation.txt', 'r').each do |line|
+  if line !~ /^\#/
+    line.strip!
+    name, one_relation, n_relation, conditions = line.split(/\s/, 4)
+    if name and one_relation and n_relation
+      primary_table, primary_key, strip_primary_key_length = one_relation.split(':', 3)
+      foreign_table, foreign_key, strip_foreign_key_length = n_relation.split(':', 3)
+
+      $special_columns[foreign_table] | ['id']
+      $special_columns[primary_table] | ["#{foreign_table}_id"]
+
+      relations << {:name => name, :primary_table => primary_table, :primary_key => primary_key, :foreign_table => foreign_table, :foreign_key => foreign_key, :strip_primary_key_length => strip_primary_key_length.to_i, :strip_foreign_key_length => strip_foreign_key_length.to_i, :conditions => conditions }
+    end
+  end
+end
+
+sql = []
+views = []
+
+relations.each do |rel|
+  sql << "DROP INDEX IF EXISTS fki_#{rel[:name]};"
+  sql << "ALTER TABLE #{rel[:primary_table]} DROP CONSTRAINT IF EXISTS #{rel[:primary_table]}_id;"
+  sql << "ALTER TABLE #{rel[:foreign_table]} DROP CONSTRAINT IF EXISTS #{rel[:name]};"
+  sql << "ALTER TABLE #{rel[:foreign_table]} DROP COLUMN IF EXISTS #{rel[:primary_table]}_id CASCADE;"
+  sql << "TRUNCATE TABLE sqlzuord;"
+end
+
+anzahl = 0
+relations.each do |rel|  
+  sql << "ALTER TABLE #{rel[:foreign_table]} ADD COLUMN #{rel[:primary_table]}_id integer;"
+  sql << "ALTER TABLE #{rel[:primary_table]} ADD CONSTRAINT #{rel[:primary_table]}_id UNIQUE (id);"
+  sql << "ALTER TABLE #{rel[:foreign_table]} ADD CONSTRAINT #{rel[:name]} FOREIGN KEY (#{rel[:primary_table]}_id) REFERENCES #{rel[:primary_table]} (id) MATCH SIMPLE ON UPDATE NO ACTION ON DELETE NO ACTION;"
+  sql << "CREATE INDEX fki_#{rel[:name]} ON #{rel[:foreign_table]}(#{rel[:foreign_key]});"
+  sql << "INSERT INTO sqlzuord (id, pktabname, pkcolname, fktabname, fkcolname) VALUES (#{anzahl}+=1, '#{rel[:foreign_table]}', '#{rel[:primary_table]}_id', '#{rel[:primary_table]}', 'id');"
+  update_sql = "UPDATE #{rel[:foreign_table]} AS t2 SET #{rel[:primary_table]}_id = (SELECT id FROM #{rel[:primary_table]} AS t1 WHERE t1.#{rel[:primary_key]} = t2.#{rel[:foreign_key]}"
+  if not rel[:strip_primary_key_length].zero?
+    update_sql = "UPDATE #{rel[:foreign_table]} AS t2 SET #{rel[:primary_table]}_id = (SELECT id FROM #{rel[:primary_table]} AS t1 WHERE trim(both ' ' from substring(t1.#{rel[:primary_key]} from 1 for #{rel[:strip_primary_key_length]})) = t2.#{rel[:foreign_key]}"
+  elsif not rel[:strip_foreign_key_length].zero?
+    update_sql = "UPDATE #{rel[:foreign_table]} AS t2 SET #{rel[:primary_table]}_id = (SELECT id FROM #{rel[:primary_table]} AS t1 WHERE t1.#{rel[:primary_key]} = trim(both ' ' from substring(t2.#{rel[:foreign_key]} from 1 for #{rel[:strip_foreign_key_length]}))"
+  end
+
+  update_sql << " AND #{rel[:conditions]}" if rel[:conditions] and not rel[:conditions].empty?
+  update_sql << " LIMIT 1);"
+
+  sql << update_sql
+
+  views << rel[:primary_table]
+  views << rel[:foreign_table]
+
+  insert_kk(rel[:foreign_table], rel[:primary_table])
+end
+
+sql << "REVOKE ALL ON DATABASE #{DATABASE} FROM #{USER};"
+views.uniq.each do |table|
+  sql << "REVOKE ALL ON TABLE #{table} FROM #{USER};"
+end
+sql << "DROP USER IF EXISTS #{USER};"
+sql << "CREATE USER #{USER} LOGIN CONNECTION LIMIT -1 UNENCRYPTED PASSWORD 'reporting';"
+
+#sql << "DROP SCHEMA IF EXISTS #{USER} CASCADE;"
+#sql << "CREATE SCHEMA AUTHORIZATION #{USER};"
+
+sql << "GRANT ALL ON DATABASE #{DATABASE} TO #{USER};"
+
+views.uniq.each do |table|
+#  view = "#{USER}.vw_#{table}"
+  view = "public.vw_#{table}"
+  sql << "DROP VIEW IF EXISTS #{view};"
+  sql << "CREATE VIEW #{view} AS #{create_view_sql(table)};"
+  sql << "GRANT SELECT ON TABLE #{view} TO #{USER};"
+  sql << "GRANT REFERENCES ON TABLE #{view} TO #{USER};"
+
+#  sql << "GRANT SELECT ON TABLE public.#{table} TO #{USER};"
+#  sql << "GRANT REFERENCES ON TABLE public.#{table} TO #{USER};"
+  sql << "GRANT ALL ON TABLE #{table} TO #{USER};"
+end
+
+execute_batch(sql)
